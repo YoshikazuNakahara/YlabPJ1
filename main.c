@@ -3,44 +3,43 @@
 #include <string.h>
 
 int parenthesesChecker(char*);
-int parentheseschecker(char*);
 
 int main(void){
     // Your code here!
     // ファイルのオープン
     char buffer[256];
+    char* string;
     FILE *fp;
-    fp = fopen(stdin, "r");
-    
-    int flag = 1;
-    flag = parenthesesChecker();
-    if flag
-        printf("Complete parentheses.");
-    else
-        printf("Not complete parentheses.");
-    // ファイルのクローズ
-    fclose(fp);
-}
-
-int parentheseschecker(char* string){
-    if (*string == '('){
-        string++;
-        int number = strlen(string)+1;
-        for (int i = 0;i < number;i++){
-            string++;
-        }
-        if (*string == ')'){
-            return 1;
-        }
-        else
-            return 0;
+    fp = fopen("./File1", "r");
+    if (fp == NULL) {                             // オープンに失敗した場合
+        printf("Cannot open the file.¥n");            // エラーメッセージを出して
+        exit(1);                                    // 異常終了
     }
+    
+    for (int i = 0; (buffer[i] = fgetc( fp )) != EOF;i++);
+    
+    int flag = parenthesesChecker(buffer);
+    if (flag)
+        printf("Not complete parentheses.");
+    else
+        printf("Complete parentheses.");
+    // ファイルのクローズ
+    //fclose(fp);
+    
+    return 0;
 }
 
 int parenthesesChecker(char* string){
-    if (*string == '('){
-        return parenthesesChecker() and 1;
+    int checker = 0;
+    for (int i = 0;i < strlen(string);i++){
+        if (string[i] == '('){
+            checker++;
+        }
+        else if (string[i] == ')' ){
+                    checker--;
+                if (checker < 0)
+                    break; 
+        } 
     }
-    else
-        
+    return checker;
 }
