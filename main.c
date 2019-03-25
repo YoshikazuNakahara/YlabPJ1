@@ -20,9 +20,9 @@ int main(void){
     
     int flag = parenthesesChecker(buffer);
     if (flag)
-        printf("Not complete parentheses.");
+        printf("Not match parentheses.");
     else
-        printf("Complete parentheses.");
+        printf("Match parentheses.");
     // ファイルのクローズ
     //fclose(fp);
     
