@@ -7,10 +7,14 @@ int parenthesesChecker(char*);
 int main(void){
     // Your code here!
     // ファイルのオープン
-    char buffer[256];
+    char buffer[256];t
     char* string;
     FILE *fp;
-    fp = fopen("./File1", "r");
+    char input[256];
+    
+    printf("input string:");
+    scanf(&s, &input);
+    fp = fopen(input, "r");
     if (fp == NULL) {                             // オープンに失敗した場合
         printf("Cannot open the file.¥n");            // エラーメッセージを出して
         exit(1);                                    // 異常終了
