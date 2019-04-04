@@ -12,7 +12,7 @@ int main(void){
     char input[256]; // file name
     
     printf("Input a file name which is ascii string and length of 256:\n");
-    scanf(&s, &input);
+    scanf("%s", &input);
     fp = fopen(input, "r");
     
     // openning the file failed
@@ -22,9 +22,9 @@ int main(void){
     }
     
     // input string in the file into a string buffer.
-    for (int i = 0; (buffer[i] = fgetc( fp )) != EOF && strlen(buffer[i]) < 257;i++);
+    for (int i = 0; (buffer[i] = fgetc( fp )) != EOF && strlen(buffer) < 257;i++);
     // string in the file > 256
-    if (strlen(buffer[i]) >=){
+    if (strlen(buffer) > 256){
         printf("String in the file is longer than 256.\n");
         exit(1);
     }
