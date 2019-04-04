@@ -42,7 +42,7 @@ int main(int argc, char* argv[]){
 int parenthesesChecker(FILE* fp){
     int checker = 0;
     char c;
-    for (int i = 0; (c = fgetc( fp )) != EOF;i++)
+    for (int i = 0; (c = fgetc( fp )) != EOF;i++) {
         if (c == '('){
             checker++;
         }
@@ -51,7 +51,7 @@ int parenthesesChecker(FILE* fp){
              if (checker < 0)
                 break; 
         } 
-        if (c == '['){
+        else if (c == '['){
             checker += 10;
         }
         else if (c == ']' ){
@@ -59,7 +59,7 @@ int parenthesesChecker(FILE* fp){
              if (checker < 0)
                 break; 
         }
-        if (c == '{'){
+        else if (c == '{'){
             checker += 100;
         }
         else if (c == '}' ){
