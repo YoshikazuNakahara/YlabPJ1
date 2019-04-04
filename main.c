@@ -3,17 +3,22 @@
 #include <string.h>
 
 // check corresponding parentheses
-int parenthesesChecker(char*);
+int parenthesesChecker(FILE*);
 
-int main(void){
-    char buffer[256]; // a string in the file 
-    char* string;
-    FILE *fp;
+int main(int argc, char* argv[]){
+    FILE* fp;
     char input[256]; // file name
     
-    printf("Input a file name which is ascii string and length of 256:\n");
-    scanf("%s", &input);
-    fp = fopen(input, "r");
+    if (argc == 0) {
+        printf("Input a file name which is ascii string:\n");
+        scanf("%s", &input);
+        fp = fopen(input, "r");
+    }
+    else if (argc == 1) {
+        fp = fopen(argv[1], "r");
+    }
+    else
+        printf("Too much program parameters.");
     
     // openning the file failed
     if (fp == NULL) {                             
@@ -21,15 +26,7 @@ int main(void){
         exit(1);                                    
     }
     
-    // input string in the file into a string buffer.
-    for (int i = 0; (buffer[i] = fgetc( fp )) != EOF && strlen(buffer) < 257;i++);
-    // string in the file > 256
-    if (strlen(buffer) > 256){
-        printf("String in the file is longer than 256.\n");
-        exit(1);
-    }
-    
-    int flag = parenthesesChecker(buffer);
+    int flag = parenthesesChecker(fp);
     
     // output whether correspond parentheses or not
     if (flag)
@@ -42,16 +39,33 @@ int main(void){
     return 0;
 }
 
-int parenthesesChecker(char* string){
+int parenthesesChecker(FILE* fp){
     int checker = 0;
-    for (int i = 0;i < strlen(string);i++){
-        if (string[i] == '('){
+    char c;
+    for (int i = 0; (c = fgetc( fp )) != EOF;i++)
+        if (c == '('){
             checker++;
         }
-        else if (string[i] == ')' ){
-                    checker--;
-                if (checker < 0)
-                    break; 
+        else if (c == ')' ){
+             checker--;
+             if (checker < 0)
+                break; 
+        } 
+        if (c == '['){
+            checker += 10;
+        }
+        else if (c == ']' ){
+            checker -= 10;
+             if (checker < 0)
+                break; 
+        }
+        if (c == '{'){
+            checker += 100;
+        }
+        else if (c == '}' ){
+             checker -= 100;
+             if (checker < 0)
+                break; 
         } 
     }
     return checker;
