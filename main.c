@@ -9,12 +9,12 @@ int main(int argc, char* argv[]){
     FILE* fp;
     char input[256]; // file name
     
-    if (argc == 0) {
+    if (argc == 1) {
         printf("Input a file name which is ascii string:\n");
         scanf("%s", &input);
         fp = fopen(input, "r");
     }
-    else if (argc == 1) {
+    else if (argc == 2) {
         fp = fopen(argv[1], "r");
     }
     else
