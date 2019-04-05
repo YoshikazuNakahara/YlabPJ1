@@ -3,7 +3,7 @@
 #include <string.h>
 
 // check corresponding parentheses
-int parenthesesChecker(FILE*);
+void bracketsCheck(FILE*);
 
 int main(int argc, char* argv[]){
     FILE* fp;
@@ -26,47 +26,60 @@ int main(int argc, char* argv[]){
         exit(1);                                    
     }
     
-    int flag = parenthesesChecker(fp);
+    bracketsCheck(fp);
     
-    // output whether correspond parentheses or not
-    if (flag)
-        printf("Not correspond parentheses.\n");
-    else
-        printf("Correspond parentheses.\n");
     // Close the file.
     fclose(fp);
     
     return 0;
 }
 
-int parenthesesChecker(FILE* fp){
+void bracketsCheck(FILE* fp){
     int checker = 0;
+    int checker1 = 0;
+    int checker2 = 0;
+    int checker3 = 0;
     char c;
     for (int i = 0; (c = fgetc( fp )) != EOF;i++) {
         if (c == '('){
-            checker++;
+            checker1++;
         }
         else if (c == ')' ){
-             checker--;
-             if (checker < 0)
+             checker1--;
+             if (checker1 < 0)
                 break; 
         } 
         else if (c == '['){
-            checker += 10;
+            checker2++;
         }
         else if (c == ']' ){
-            checker -= 10;
-             if (checker < 0)
+            checker2--;
+             if (checker2 < 0)
                 break; 
         }
         else if (c == '{'){
-            checker += 100;
+            checker3++;
         }
         else if (c == '}' ){
-             checker -= 100;
-             if (checker < 0)
+             checker3--;
+             if (checker3 < 0)
                 break; 
         } 
     }
-    return checker;
+    if (checker1 == 0 && checker2 == 0 && checker3 == 0)
+        printf("Correspond all brackets.\n");
+    else if (checker1 == 0 && checker2 != 0 && checker3 != 0)
+        printf("correspond parentheses.\n");
+    else if (checker1 == 0 && checker2 == 0 && checker3 != 0)
+        printf("correspond parentheses and square brackets.\n");
+    else if (checker1 == 0 && checker2 != 0 && checker3 == 0)
+        printf("correspond parentheses and curly brackets.\n");
+    else if (checker1 != 0 && checker2 == 0 && checker3 != 0)
+        printf("correspond square brackets.\n");
+    else if (checker1 != 0 && checker2 == 0 && checker3 == 0)
+        printf("correspond curly brackets and square brackets.\n");
+    else if (checker1 != 0 && checker2 == 0 && checker3 == 0)
+        printf("Not correspond brackets.\n");
+    else
+        printf("correspond curly brackets.\n");
 }
