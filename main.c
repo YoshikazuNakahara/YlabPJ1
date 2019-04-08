@@ -66,20 +66,4 @@ void bracketsCheck(FILE* fp){
                 break; 
         } 
     }
-    if (checker1 == 0 && checker2 == 0 && checker3 == 0)
-        printf("Correspond all brackets.\n");
-    else if (checker1 == 0 && checker2 != 0 && checker3 != 0)
-        printf("correspond parentheses.\n");
-    else if (checker1 == 0 && checker2 == 0 && checker3 != 0)
-        printf("correspond parentheses and square brackets.\n");
-    else if (checker1 == 0 && checker2 != 0 && checker3 == 0)
-        printf("correspond parentheses and curly brackets.\n");
-    else if (checker1 != 0 && checker2 == 0 && checker3 != 0)
-        printf("correspond square brackets.\n");
-    else if (checker1 != 0 && checker2 == 0 && checker3 == 0)
-        printf("correspond curly brackets and square brackets.\n");
-    else if (checker1 != 0 && checker2 == 0 && checker3 == 0)
-        printf("Not correspond brackets.\n");
-    else
-        printf("correspond curly brackets.\n");
 }

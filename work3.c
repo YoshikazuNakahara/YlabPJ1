@@ -4,16 +4,19 @@
 typedef struct
 {
   int top;
-  int array[STACKSIZE];
+  char array[STACKSIZE];
 } Stack;
 
 void makeStack(Stack*);
 int isEmptyStack(Stack*);
 void pushStack(Stack*, int);
 int popStack(Stack*);
-int checkParentheses(FILE*);
+int checkBrackets(FILE*);
+void printStack(Stack*);
+int checkLeftBrackets(Stack*, char);
+int checkRightBrackets(Stack*, char);
+int matchBrackets(char , char );
 
-// chec corresponding parentheses
 
 int main(int argc, char* argv[]){
     FILE* fp = NULL;
@@ -36,13 +39,13 @@ int main(int argc, char* argv[]){
         exit(1);                                    
     }
     
-    int flag = checkParentheses(fp);
+    int flag = checkBrackets(fp);
     
-    // output whether correspond parentheses or not
+    // output whether correspond brackets or not
     if (flag)
-        printf("Correspond parentheses.\n");
+        printf("Correspond brackets.\n");
     else
-        printf("Not correspond parentheses.\n");
+        printf("Not correspond brackets.\n");
     // Close the file.
     fclose(fp);
     
@@ -80,41 +83,57 @@ void printStack(Stack* sp){
     printf("Stack\n");
     printf("Stack top %d\n", sp->top);
     for (int i = (STACKSIZE - 1);i > sp->top;i--){
-        printf("index %d, number %d\n", i, sp->array[i]);
+        printf("index %d, bracket %c\n", i, sp->array[i]);
     }
     if (sp->top == STACKSIZE){
         printf("Stack Empty.\n");
     }
 }
 
-int checkParentheses(FILE* fp){
+int checkBrackets(FILE* fp){
     char c;
     Stack st;
     Stack* sp = &st;
     
     makeStack(sp);
-    
     for (int i = 0; (c = fgetc( fp )) != EOF;i++){
-        if (c == '('){
-           pushStack(sp, 1);
-        }
-        else if (c == ')' ){
-           popStack(sp);
-        } 
-        else if (c == '['){
-           pushStack(sp, 2);
-        }
-        else if (c == ']' ){
-           popStack(sp);
-        } 
-        else if (c == '{'){
-           pushStack(sp, 3);
-        }
-        else if (c == '}' ){
-           popStack(sp);
-        } 
-
+        checkLeftBrackets(sp, c);
+        checkRightBrackets(sp, c); 
     }
-    //printStack(sp);
+    printStack(sp);
     return (isEmptyStack(sp));
+}
+
+
+int matchBrackets(char bracket1, char bracket2){
+    if (bracket1 == '(' && bracket2 == ')') {
+        return 1;
+    }
+    else if (bracket1 == '[' && bracket2 == ']') {
+        return 1;
+    }
+    else if (bracket1 == '{' && bracket2 == '}') {
+        return 1;
+    }
+    else if (bracket1 == '<' && bracket2 == '>') {
+        return 1;
+    }
+    else
+        return 0;
+}
+        
+int checkLeftBrackets(Stack* sp, char fileChar){
+        if (fileChar == '(' || fileChar == '[' || fileChar == '{' || fileChar == '<'){
+           pushStack(sp, fileChar);
+           printStack(sp);
+        }
+}
+
+int checkRightBrackets(Stack* sp, char fileChar){
+        if (fileChar == ')' || fileChar == ']' || fileChar == '}' || fileChar == '>'){
+           if (matchBrackets(popStack(sp), fileChar)) {
+              printStack(sp);
+              return 0;
+           }
+        }
 }
