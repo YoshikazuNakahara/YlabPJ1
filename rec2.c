@@ -8,7 +8,7 @@ int main(void){
     // Your code here!
     // ファイルのオープン
     int flag = 1;
-    flag = checkBrackets("(())");
+    flag = checkBrackets("*((dd()dd))**");
     if (flag)
         printf("Complete parentheses.");
     else
@@ -19,6 +19,7 @@ int checkBrackets(char* string){
     char sub_string[256];
     printf("string: %s\n", string);
     int length = strlen(string);
+    printf("length: %d\n", length);
     if (length == 0) {
             return 1;
     }
@@ -26,7 +27,8 @@ int checkBrackets(char* string){
         int left, right;
         int i;
         int flag = 0;
-        for (left = 0;left < length;i++){
+        for (left = 0;left < length;left++){
+                printf("left: %c\n", string[left]);
            if (string[left] == '(') {
                break;
            }
@@ -35,6 +37,7 @@ int checkBrackets(char* string){
            }
         }
         for (right = length - 1;right > - 1;right--){
+                printf("right: %c\n", string[right]);
            if (string[right] == ')') {
                break;
            }
@@ -42,12 +45,17 @@ int checkBrackets(char* string){
                return 0;
            }
         }
-        for (i = left + 1;i < right;i++){
-            sub_string[i] = string[i];
-            printf("sub_string: %c, index %d\n", sub_string[i], i);
+        int sub_length = right - left - 1;
+        printf("sub_length: %d\n", sub_length);
+        if (sub_length > 0) {
+            for (i = 0;i < sub_length;i++){
+                sub_string[i] = string[left+i+1];
+            }
+            sub_string[i] = '\0';
         }
+        else
+            *sub_string = '\0';
         printf("sub_string: %s\n", sub_string);
-        //return checkBrackets(sub_string);
-        return 1;
+        return checkBrackets(sub_string);
     }
 }
