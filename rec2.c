@@ -9,7 +9,6 @@ int main(void){
     // ファイルのオープン
     int flag = 1;
     flag = checkBrackets("(())");
-    //flag = parenthesesChecker("(l)");
     if (flag)
         printf("Complete parentheses.");
     else
@@ -45,6 +44,7 @@ int checkBrackets(char* string){
         }
         for (i = left + 1;i < right;i++){
             sub_string[i] = string[i];
+            printf("sub_string: %c, index %d\n", sub_string[i], i);
         }
         printf("sub_string: %s\n", sub_string);
         //return checkBrackets(sub_string);
