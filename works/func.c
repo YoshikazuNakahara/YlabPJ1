@@ -3,36 +3,34 @@
 #include "stack.h"
 
 int checkParentheses(FILE* fp){
-    char c;
+    char c, c1;
     Stack st;
     Stack* sp = &st;
+    char leftBrackets[] = {'(', '[', '{', '\0'};
+    char rightBrackets[] = {')', ']', '}', '\0'};
     
     makeStack(sp);
     
     for (int i = 0; (c = fgetc( fp )) != EOF;i++){
-        if (c == '('){
-           pushStack(sp, 1);
-        }
-        else if (c == ')' ){
-           if (popStack(sp) != 1)
-               return 0;
-        } 
-        else if (c == '['){
-           pushStack(sp, 2);
-        }
-        else if (c == ']' ){
-           if (popStack(sp) != 2)
-               return 0;
-        } 
-        else if (c == '{'){
-           pushStack(sp, 3);
-        }
-        else if (c == '}' ){
-           if (popStack(sp) != 3)
-               return 0;
-        } 
-
+    	int flag = 1;
+	printf("debug %c\n", c);
+	printStack(sp);
+	for (int j = 0;rightBrackets[j] != '\0';j++){
+	   if (c == rightBrackets[j]) {
+		if (popStack(sp) != j) {
+		return 0;	
+	   	}
+	   	else {
+		flag = 0;
+	   	}
+	    }
+	}
+	for (int j = 0;leftBrackets[j] != '\0';j++){
+		if (leftBrackets[j] == c) {
+		pushStack(sp, j);
+		}
+	}
     }
-    //printStack(sp);
+	printStack(sp);
     return (isEmptyStack(sp));
 }

@@ -3,16 +3,20 @@
 #include "stack.h"
 
 void makeStack(Stack* sp){
-   sp->top = STACKSIZE;
+   sp->top = -1;
 }
 
 int isEmptyStack(Stack* sp){
+    return sp->top == -1;
+}
+
+int isFullStack(Stack* sp){
     return sp->top == STACKSIZE;
 }
 
 void pushStack(Stack* sp,int number){
-    if (sp->top > -1){
-        sp->top--;
+    if (!isFullStack(sp)){
+        sp->top++;
         sp->array[sp->top] = number;
     }
     else
@@ -20,22 +24,22 @@ void pushStack(Stack* sp,int number){
 }
 
 int popStack(Stack* sp){
-   if (sp->top > 0) {
-       sp->top++;
-       return sp->array[sp->top - 1];
+   if (!isEmptyStack(sp)){
+       sp->top--;
+       return sp->array[sp->top + 1];
    }
    else {
-       return -1;
+       return '\0';
    }
 }
 
 void printStack(Stack* sp){
-    printf("Stack\n");
-    printf("Stack top %d\n", sp->top);
-    for (int i = (STACKSIZE - 1);i > sp->top;i--){
-        printf("index %d, number %d\n", i, sp->array[i]);
+    printf("Stack\ncharacter:");
+    for (int i = sp->top;i > -1;i--){
+        printf("%d, ",sp->array[i]);
     }
-    if (sp->top == STACKSIZE){
-        printf("Stack Empty.\n");
+    if (isEmptyStack(sp)){
+        printf("Empty");
     }
+    printf("\n");
 }
