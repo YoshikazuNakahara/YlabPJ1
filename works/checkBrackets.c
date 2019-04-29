@@ -13,11 +13,15 @@ int checkParentheses(FILE* fp){
     
     for (int i = 0; (c = fgetc( fp )) != EOF;i++){
     	int flag = 1;
+	int d1;
 	printf("debug %c\n", c);
-	printStack(sp);
+//	printStack(sp);
 	for (int j = 0;rightBrackets[j] != '\0';j++){
 	   if (c == rightBrackets[j]) {
-		if (popStack(sp) != j) {
+		d1 = popStack(sp);
+		//if (popStack(sp) != j) {
+		if (d1 != j) {
+		printf("debug %d", d1);
 		return 0;	
 	   	}
 	   	else {
@@ -31,6 +35,7 @@ int checkParentheses(FILE* fp){
 		}
 	}
     }
-	printStack(sp);
+//	printStack(sp);
+	destructStack(sp);
     return (isEmptyStack(sp));
 }

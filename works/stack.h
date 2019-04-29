@@ -20,3 +20,4 @@ void pushStack(Stack*, int);
 int popStack(Stack*);
 int checkParentheses(FILE*);
 void printStack(Stack*);
+void destructStack(Stack*);

@@ -71,12 +71,14 @@ int popStack(Stack* sp){
 }
 
 void printStack(Stack* sp){
-    printf("Stack\ncharacter:");
-    for (int i = sp->top;i > -1;i--){
-        printf("%d, ",sp->array[i]);
+    int* array;
+    printf("Stack:");
+    for (int j = sp->number;j > -1;j--) {
+	array = sp->index[sp->number];
+    	printf("character:%d", j);
+    	for (int i = sp->top;i > -1;i--){
+        	printf("%d, ",array[i]);
+    	}
+    	printf("\n");
     }
-    if (isEmptyStack(sp)){
-        printf("Empty");
-    }
-    printf("\n");
 }
