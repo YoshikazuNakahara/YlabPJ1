@@ -1,14 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define STACKSIZE 10000
+#define BASESTACKSIZE 10000
+#define INDEXSIZE 10000
 typedef struct
 {
   int top;
-  char array[STACKSIZE];
+  //int array[STACKSIZE];
+  int* array;
+  int* index[INDEXSIZE];
+  int number;
 } Stack;
 
 void makeStack(Stack*);
 int isEmptyStack(Stack*);
+int isSubEmptyStack(Stack*);
+int isFullStack(Stack*);
+int isSubFullStack(Stack*);
 void pushStack(Stack*, int);
 int popStack(Stack*);
 int checkParentheses(FILE*);

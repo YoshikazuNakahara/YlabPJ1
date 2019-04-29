@@ -3,34 +3,71 @@
 #include "stack.h"
 
 void makeStack(Stack* sp){
+   sp = (Stack*)malloc(sizeof(Stack));
    sp->top = -1;
+   sp->array = (int*)malloc(sizeof(int) * BASESTACKSIZE);
+   sp->number = 0;
+   sp->index[sp->number] = sp->array;
+}
+
+void destructStack(Stack* sp){
+   while (sp->number > -1) {
+	free(sp->array);
+        sp->number--;
+        sp->array = sp->index[sp->number];
+   }
+   free(sp);
+}
+
+int isSubEmptyStack(Stack* sp){
+    return sp->top > -1;
+}
+
+int isSubFullStack(Stack* sp){
+    return sp->top < BASESTACKSIZE;
 }
 
 int isEmptyStack(Stack* sp){
-    return sp->top == -1;
+    return isSubEmptyStack(sp) && sp->number < 1;
 }
 
 int isFullStack(Stack* sp){
-    return sp->top == STACKSIZE;
+    return isSubFullStack(sp) && sp->number > (INDEXSIZE - 1);
 }
 
-void pushStack(Stack* sp,int number){
+void pushStack(Stack* sp,int integer){
     if (!isFullStack(sp)){
-        sp->top++;
-        sp->array[sp->top] = number;
-    }
-    else
-        printf("Stack is full.\n");
+	if (!isSubEmptyStack(sp)) {
+        	sp->top++;
+        	sp->array[sp->top] = integer;
+        }
+    	else {
+   		sp->top = 0;
+   		sp->array = (int*)malloc(sizeof(int) * BASESTACKSIZE);
+   		sp->number++;
+   		sp->index[sp->number] = sp->array;
+    	}
+     }
+      else {
+	printf("Stack is Full.\nCannot push stack.\n");
+      }
 }
 
 int popStack(Stack* sp){
    if (!isEmptyStack(sp)){
-       sp->top--;
-       return sp->array[sp->top + 1];
-   }
-   else {
-       return '\0';
-   }
+       if (!isSubEmptyStack(sp)) {
+       	 sp->top--;
+       	 return sp->array[sp->top + 1];
+       }
+       else {
+            sp->top = BASESTACKSIZE - 1;
+	    sp->number--;
+       }
+    }
+    else {
+	printf("Stack is empty.\nCannot pop stack.\n");
+	return -1;
+    }
 }
 
 void printStack(Stack* sp){
