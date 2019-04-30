@@ -1,17 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define BASESTACKSIZE 10000
+//#define BASESTACKSIZE 10000
+#define BASESTACKSIZE 1
 #define INDEXSIZE 10000
 typedef struct
 {
-  int top;
+  int* top;
   //int array[STACKSIZE];
-  int* array;
-  int* index[INDEXSIZE];
-  int number;
+  int** array;
+  int*(*(index[INDEXSIZE]));
+  int* number;
 } Stack;
 
-void makeStack(Stack*);
+Stack* makeStack(Stack);
 int isEmptyStack(Stack*);
 int isSubEmptyStack(Stack*);
 int isFullStack(Stack*);
