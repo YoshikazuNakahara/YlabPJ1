@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include "stack.h"
 
-Stack* makeStack(Stack st){
-   Stack* sp = &st;
+void makeStack(Stack* sp){
    sp->top = (int*)malloc(sizeof(int));
    *(sp->top) = -1;
    sp->number = (int*)malloc(sizeof(int));
@@ -11,7 +10,6 @@ Stack* makeStack(Stack st){
    sp->array = (int**)malloc(sizeof(int*));
    *(sp->array) = (int*)malloc(sizeof(int) * BASESTACKSIZE);
    *sp->index = sp->array;
-   return sp;
 }
 
 void destructStack(Stack* sp){
@@ -28,7 +26,7 @@ int isSubEmptyStack(Stack* sp){
 }
 
 int isSubFullStack(Stack* sp){
-    return *(sp->top) > (BASESTACKSIZE - 1);
+    return *(sp->top) > (BASESTACKSIZE - 2);
 }
 
 int isEmptyStack(Stack* sp){
@@ -36,57 +34,57 @@ int isEmptyStack(Stack* sp){
 }
 
 int isFullStack(Stack* sp){
-    return isSubFullStack(sp) && *(sp->number) > (INDEXSIZE - 1);
+    return isSubFullStack(sp) && *(sp->number) > (INDEXSIZE - 2);
 }
 
 void pushStack(Stack* sp,int integer){
-    if (!isFullStack(sp)){
-	if (!isSubFullStack(sp)) {
-        	*(*(sp->array) + *(sp->top)) = integer;
-            //printf("PUSH! top:%d, value:%d array: %d\n", *(sp->top), integer, *(*(sp->array) + *(sp->top)));
-        	*(sp->top) = *(sp->top) + 1;
-        }
-    	else {
-        printf("Substack empty.\n");
-   		*(sp->top) = 0;
-   		*(sp->array) = (int*)malloc(sizeof(int) * BASESTACKSIZE);
-   		*(sp->number) = *(sp->number) + 1;
-   		*(*(sp->index) + *(sp->number)) = *(sp->array);
-    	}
-     }
-      else {
+    if (isFullStack(sp)){
 	printf("Stack is Full.\nCannot push stack.\n");
-      }
+    }
+  else if (isSubFullStack(sp)) {
+	*(sp->top) = 0;
+	*(sp->array) = (int*)malloc(sizeof(int) * BASESTACKSIZE);
+	*(sp->number) = *(sp->number) + 1;
+	*(*(sp->index) + *(sp->number)) = *(sp->array);
+	*(*(sp->array) + *(sp->top)) = integer;
+//	printf("Over PUSH! top:%d number:%d value:%d array:%d\n", *(sp->top), *(sp->number), integer, *(*(sp->array) + *(sp->top)));
+    } 
+  else {
+	*(*(sp->array) + *(sp->top)) = integer;
+ 	*(sp->top) = *(sp->top) + 1;
+//	printf("PUSH! top:%d number:%d value:%d array:%d\n", *(sp->top), *(sp->number), integer, *(*(sp->array) + *(sp->top)));
+  }
 }
 
 int popStack(Stack* sp){
-   if (!isEmptyStack(sp)){
-       if (!isSubEmptyStack(sp)) {
-	printf("debug\n");
-       	 *(sp->top) = *(sp->top) - 1;
-            printf("POP! top:%d, value:%d\n", *(sp->top), *(*(sp->array) + *(sp->top)));
-       	 return *(*(sp->array) + *(sp->top) + 1);
-       }
-       else {
-	printf("DEBUG\n");
-            *(sp->top) = BASESTACKSIZE - 1;
-       	 *(sp->number) = *(sp->number) - 1;
-       }
-    }
-    else {
+   int ret;
+   if (isEmptyStack(sp)){
 	printf("Stack is empty.\nCannot pop stack.\n");
 	return -1;
     }
+    else if (isSubEmptyStack(sp)) {
+	ret = *(*(sp->array) + *(sp->top));
+	*(sp->top) = BASESTACKSIZE - 2;
+	*(sp->number) = *(sp->number) - 1;
+	sp->array = *(sp->index) + *(sp->number);
+//	printf("Under POP! top:%d, number:%d, value:%d\n", *(sp->top), *(sp->number), *(*(sp->array) + *(sp->top)));
+     }
+     else {
+	ret = *(*(sp->array) + *(sp->top));
+	*(sp->top) = *(sp->top) - 1;
+//	printf("POP! top:%d, number:%d, value:%d\n", *(sp->top), *(sp->number), *(*(sp->array) + *(sp->top)));
+    }
+//    printf("return value %d\n", ret);
+    return ret;
 }
 
 void printStack(Stack* sp){
     int* array;
-    printf("Stack:");
     for (int j = *(sp->number);j > -1;j--) {
-	array = *(*(sp->index) + *(sp->number));
-    	printf("character:%d", j);
+	array = *(*(sp->index) + j);
+    	printf("stack number:%d", j);
     	for (int i = *(sp->top);i > -1;i--){
-        	printf("%d, ",array[i]);
+        	printf("top:%d value:%d", i ,array[i]);
     	}
     	printf("\n");
     }

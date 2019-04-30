@@ -9,19 +9,19 @@ int checkParentheses(FILE* fp){
     
     Stack st;
     Stack* sp;
-    sp = makeStack(st);
+    sp = &st;
+    makeStack(sp);
     
     for (int i = 0; (c = fgetc( fp )) != EOF;i++){
     	int flag = 1;
 	    int d1;
-//	    printf("debug %c\n", c);
     	printStack(sp);
 	for (int j = 0;rightBrackets[j] != '\0';j++){
 	   if (c == rightBrackets[j]) {
 		d1 = popStack(sp);
 		//if (popStack(sp) != j) {
 		if (d1 != j) {
-//		    printf("debug %d", d1);
+		    printf("debug %d", d1);
 		    return 0;	
 	   	}
 	   	else {
@@ -31,11 +31,11 @@ int checkParentheses(FILE* fp){
 	}
 	for (int j = 0;leftBrackets[j] != '\0';j++){
 		if (leftBrackets[j] == c) {
- //           printf("leftBrackets %c, integer %d\n", leftBrackets[j], j);
 		    pushStack(sp, j);
 		}
 	}
     }
+	printf("End ");
 	printStack(sp);
 //	destructStack(sp);
     return (isEmptyStack(sp));
