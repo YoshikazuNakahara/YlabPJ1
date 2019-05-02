@@ -4,21 +4,21 @@
 #define INDEXSIZE 10000
 typedef struct
 {
-  int* top;
+  int *top;
   //int array[STACKSIZE];
-  int** array;
-  int*(*(index[INDEXSIZE]));
-  int* number;
+  int **array;
+  int *(*(index[INDEXSIZE]));
+  int *number;
 } Stack;
 
-void makeStack(Stack*);
+void makeStack (Stack *);
 //Stack* makeStack(Stack);
-int isEmptyStack(Stack*);
-int isSubEmptyStack(Stack*);
-int isFullStack(Stack*);
-int isSubFullStack(Stack*);
-void pushStack(Stack*, int);
-int popStack(Stack*);
-int checkParentheses(FILE*);
-void printStack(Stack*);
-void destructStack(Stack*);
+int isEmptyStack (Stack *);
+int isSubEmptyStack (Stack *);
+int isFullStack (Stack *);
+int isSubFullStack (Stack *);
+void pushStack (Stack *, int);
+int popStack (Stack *);
+int checkParentheses (FILE *);
+void printStack (Stack *);
+void destructStack (Stack *);
