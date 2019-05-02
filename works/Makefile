@@ -1,13 +1,15 @@
 C := gcc
-CFLAGS := -g -Wall -Wextra
+CFLAGS := -g3 -O0 -Wall -Wextra
 
-checkBrackets : main.o stack.o
-	$(CC) -o $@ main.o stack.o      
+checkKeywords : main.o checkKeywords.o stack.o
+	$(CC) -o $@ main.o checkKeywords.o stack.o
 
 main.o : main.c
 	$(CC) -c $*.c
 
+checkKeywords.o : checkKeywords.c stack.h
+	$(CC) -c $*.c
 stack.o : stack.c stack.h
 	$(CC) -c $*.c
 clean:
-	rm checkBrackets main.o stack.o
+	rm checkKeywords main.o stack.o checkKeywords.o
