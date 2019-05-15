@@ -10,4 +10,4 @@ test.o : test.c
 stack.o : stack.c
 	$(CC) $(CFLAGS) -DTEST -c $*.c
 clean:
-	rm test.o stack.o
+	rm test test.o stack.o
