@@ -1,25 +1,39 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../stack/stack.h"
+//#include "..stack.h"
 #include "keywords.h"
 
 int
-main(void){
-	Keywords key;
-	Keywords* kp = &key;
-	char* buf;
-	readkeywords(kp);
-	for (int i = 0;key.left[i] != NULL;i++) {
-			printf("Keywords: ");
-			printf("%s, ", key.left[i]);
-	}
+main (int argc, char *argv[])
+{
+  FILE *fp = NULL;
+  char input[256];		// file name
 
-	printf("\n");
+  if (argc == 1)
+    {
+      printf ("Input a file name which is ascii string:\n");
+      scanf ("%s", &input);
+      fp = fopen (input, "r");
+    }
+  else if (argc == 2)
+    {
+      fp = fopen (argv[1], "r");
+    }
+  else
+    printf ("Too much program parameters.");
 
-	for (int i = 0;key.right[i] != NULL;i++) {
-			printf("Keywords: ");
-			printf("%s, ", key.right[i]);
-		return 0;
-	}
-//void checkLeftKeywords(const Keywords, const char);
-//void checkRightKeywords(const Keywords, const char);
+  // openning the file failed
+  if (fp == NULL)
+    {
+      printf ("Cannot open the file.\n");
+      exit (1);
+    }
+  int * array = analizeKeywords(fp);
+
+  printf("array: ");
+  for (int i = 0;i < (WORDCOUNT*2+1);i++) {
+    printf("%d ", array[i]);
+  }
+  printf("\n");
+  return 0;
+}
