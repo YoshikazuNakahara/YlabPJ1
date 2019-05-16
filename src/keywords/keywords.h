@@ -1,8 +1,9 @@
 #define WORDCOUNT 2
+#define COUNT 10000
 #define KEYWORDS_MAX_LENGTH 4
-typedef struct {
-  char left[WORDCOUNT+1][KEYWORDS_MAX_LENGTH+1];
-  char right[WORDCOUNT+1][KEYWORDS_MAX_LENGTH+1];
-} Keywords;
+//#ifndef KEYWORDS_H //二重でincludeされることを防ぐ
+//#define KEYWORDS_H
 
-int* analizeKeywords(FILE *);
+
+void parseKeywords(FILE *, int*);
+int checkSyntax(int *);

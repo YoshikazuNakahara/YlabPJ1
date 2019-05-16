@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#include "..stack.h"
 #include "keywords.h"
 
 int
@@ -28,12 +27,20 @@ main (int argc, char *argv[])
       printf ("Cannot open the file.\n");
       exit (1);
     }
-  int * array = analizeKeywords(fp);
+  int array[10000];
+  for (int i = 0;i < COUNT;i++){
+    array[i] = 0;
+  }
+  parseKeywords(fp, array);
 
   printf("array: ");
-  for (int i = 0;i < (WORDCOUNT*2+1);i++) {
+  for (int i = 0;array[i] != 0;i++) {
     printf("%d ", array[i]);
   }
   printf("\n");
+  if (!checkSyntax(array))
+	printf("Correct syntax.");
+  else
+	printf("Not correct syntax.");
   return 0;
 }
