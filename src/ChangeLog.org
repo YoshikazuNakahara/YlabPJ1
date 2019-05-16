@@ -1,2 +1,0 @@
-* ${Make self c language compiler project} Change Log
-This is a project for making c language compiler.
